@@ -86,7 +86,7 @@ class Profile extends Controller
      */
     public function update(Request $request, $id)
     {
-          
+
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
             'email'      => 'required|max:20|unique:users,email,'.$request->id,
@@ -110,12 +110,12 @@ class Profile extends Controller
 
             if ($user_image = $request->file('user_image')) {
                 if ($user->user_image != '') {
-                    if (File::exists('files/assets/users/' . $user->user_image)) {
-                        unlink('files/assets/users/' . $user->user_image);
+                    if (File::exists('uploads/' . $user->user_image)) {
+                        unlink('uploads/' . $user->user_image);
                     }
                 }
                 $filename = ($request->username).'.'.$user_image->getClientOriginalExtension();
-                $path = 'files/assets/users/' . $filename;
+                $path = public_path('uploads/'.$filename);
                 Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path, 100);
@@ -144,12 +144,12 @@ class Profile extends Controller
 
         if ($user_image = $request->file('user_image')) {
             if ($user->user_image != '') {
-                if (File::exists('files/assets/users/' . $user->user_image)) {
-                    unlink('files/assets/users/' . $user->user_image);
+                if (File::exists('uploads/'.$user->user_image)) {
+                    unlink('uploads/'.$user->user_image);
                 }
             }
             $filename = $user->mobile.'.'.$user_image->getClientOriginalExtension();
-            $path = 'files/assets/users/' . $filename;
+            $path = public_path('uploads/'.$filename);
             Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($path, 100);

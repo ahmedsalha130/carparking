@@ -85,7 +85,7 @@ class CustomerController extends Controller
         if ($customer_image = $request->file('customer_image')) {
             $filename = Str::slug($request->name).'.'.$customer_image->getClientOriginalExtension();
             // $path = public_path('files/assets/customer/'. $filename);
-             $path ='files/assets/customer/'. $filename;
+            $path = public_path('uploads/'.$filename);
 
             Image::make($customer_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -182,12 +182,12 @@ class CustomerController extends Controller
 
             if ($customer_image = $request->file('customer_image')) {
                 if ($customer->customer_image != '') {
-                    if (File::exists('files/assets/customer/' . $customer->customer_image)) {
-                        unlink('files/assets/customer/' . $customer->customer_image);
+                    if (File::exists('uploads/'. $customer->customer_image)) {
+                        unlink('uploads/'. $customer->customer_image);
                     }
                 }
                 $filename = $id . '.' . $customer_image->getClientOriginalExtension();
-                $path = 'files/assets/customer/' . $filename;
+                $path = public_path('uploads/'.$filename);
                 Image::make($customer_image->getRealPath())->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path, 100);
@@ -232,38 +232,38 @@ class CustomerController extends Controller
 
             if ($customer) {
                 if ($customer->customer_image != '') {
-                    if (File::exists('files/assets/customer/' . $customer->customer_image)) {
-                        unlink('files/assets/customer/' . $customer->customer_image);
+                    if (File::exists('uploads/'. $customer->customer_image)) {
+                        unlink('uploads/'. $customer->customer_image);
                     }
                 }
-                
+
                  $invoices = Invoice::where('customer_id',$id)->withTrashed()->get();
                     foreach($invoices as $i ){
-                        
+
                          $i->forceDelete();
                     }
-                    
+
                 $res = Reservation::where('customer_id',$id)->withTrashed()->get();
                 foreach($res as $r){
-                    
+
                  if($r->status == 1 || $r->status == 2){
-                     
+
                         $current_interval = Interval::where('id',$r->interval_id)->first();
-                        
+
                         $current_interval_count = ($current_interval->count)+1;
                         $current_interval->update(['count' => $current_interval_count]);
                                          $r->forceDelete();
 
                  } else {
-                     
+
                      $r->forceDelete();
 
                  }
 
-                
-            
+
+
                 }
-                
+
                 $customer->forceDelete();
 
                 if ($customer) {
@@ -289,39 +289,39 @@ class CustomerController extends Controller
                 return redirect()->back()->with([
                     'message' => 'Something was wrong1',
                     'alert-type' => 'danger',
-                ]); 
+                ]);
             }
 
         }else {
-            
+
                 if ($customer) {
 
-            
+
                 $invoices = Invoice::where('customer_id',$id)->get();
                 $res = Reservation::where('customer_id',$id)->get();
                  if($res && $invoices){
 
                     foreach($invoices as $i ){
-                        
+
                          $i->delete();
                     }
-                    
-                
-               
+
+
+
                 foreach($res as $r){
-                    
+
                  if($r->status == 1 || $r->status == 2){
-                     
+
                         $current_interval = Interval::where('id',$r->interval_id)->first();
-                        
+
                         $current_interval_count = ($current_interval->count)+1;
                         $current_interval->update(['count' => $current_interval_count]);
                                          $r->delete();
 
                  } else {
-                     
+
                          $current_interval = Interval::where('id',$r->interval_id)->first();
-                        
+
                         $current_interval_count = ($current_interval->count)+1;
                         $current_interval->update(['count' => $current_interval_count]);
                                          $r->delete();
@@ -329,8 +329,8 @@ class CustomerController extends Controller
                  }
                 }
 
-                
-            
+
+
                 }
 
                     $customer->delete();
@@ -370,8 +370,8 @@ class CustomerController extends Controller
 
         $customer = Customer::whereId($request->customer_id)->first();
         if ($customer) {
-            if (File::exists('files/assets/customer/' . $customer->customer_image)) {
-                unlink('files/assets/customer/' . $customer->customer_image);
+            if (File::exists('uploads/'. $customer->customer_image)) {
+                unlink('uploads/'. $customer->customer_image);
             }
             $customer->customer_image = null;
             $customer->save();

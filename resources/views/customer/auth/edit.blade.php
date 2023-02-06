@@ -120,7 +120,7 @@ Edit Customer
                 @if ($customer->customer_image != '')
                     <div class="col-12 text-center">
                         <div id="imgArea">
-                            <img src="{{ asset('files/assets/customer/' . $customer->customer_image) }}" width="200" height="200">
+                            <img src="{{ asset('uploads/' . $customer->customer_image) }}" width="200" height="200">
                             <button class="btn btn-danger removeImage">Remove Image</button>
                         </div>
                     </div>
