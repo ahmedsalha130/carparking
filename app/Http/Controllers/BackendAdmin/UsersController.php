@@ -90,7 +90,7 @@ class UsersController extends Controller
         if ($user_image = $request->file('user_image')) {
 
             $filename = ($request->mobile).'.'.$user_image->getClientOriginalExtension();
-            $path = 'files/assets/users/' . $filename;
+            $path = public_path('uploads/'.$filename);
             Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($path, 100);
@@ -178,12 +178,12 @@ class UsersController extends Controller
 
             if ($user_image = $request->file('user_image')) {
                 if ($user->user_image != '') {
-                    if (File::exists('files/assets/users/' . $user->user_image)) {
-                        unlink('files/assets/users/' . $user->user_image);
+                    if (File::exists('uploads/' . $user->user_image)) {
+                        unlink('uploads/' . $user->user_image);
                     }
                 }
                 $filename = ($request->username).'.'.$user_image->getClientOriginalExtension();
-                $path = 'files/assets/users/' . $filename;
+                $path = 'uploads/'.$filename;
                 Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path, 100);
@@ -220,8 +220,8 @@ class UsersController extends Controller
 
        $user =  User::find($request->user_id)->first();
         if ($user->user_image != '') {
-            if (File::exists('files/assets/users/' . $user->user_image)) {
-                unlink('files/assets/users/' . $user->user_image);
+            if (File::exists('uploads/' . $user->user_image)) {
+                unlink('uploads/' . $user->user_image);
             }
         }
         if ($user ){
@@ -252,8 +252,8 @@ class UsersController extends Controller
 
         $user = User::whereId($request->user_id)->first();
         if ($user) {
-            if (File::exists('files/assets/users/' . $user->user_image)) {
-                unlink('files/assets/users/' . $user->user_image);
+            if (File::exists('uploads/' . $user->user_image)) {
+                unlink('uploads/' . $user->user_image);
             }
             $user->user_image    = null;
             $user->save();
