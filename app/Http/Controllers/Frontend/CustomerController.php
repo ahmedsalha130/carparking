@@ -85,11 +85,8 @@ class CustomerController extends Controller
         if ($customer_image = $request->file('customer_image')) {
             $filename = Str::slug($request->name).'.'.$customer_image->getClientOriginalExtension();
             // $path = public_path('files/assets/customer/'. $filename);
-            $path = public_path('uploads/'.$filename);
 
-            Image::make($customer_image->getRealPath())->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($path, 100);
+            $request->customer_image->move(public_path('uploads'), $filename);
             $data['customer_image']  = $filename;
         }
 
@@ -186,12 +183,9 @@ class CustomerController extends Controller
                         unlink('uploads/'. $customer->customer_image);
                     }
                 }
-                $filename = $id . '.' . $customer_image->getClientOriginalExtension();
-                $path = public_path('uploads/'.$filename);
-                Image::make($customer_image->getRealPath())->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($path, 100);
-                $data['customer_image'] = $filename;
+                $filename = Str::slug($request->name).'.'.$customer_image->getClientOriginalExtension();
+                $request->customer_image->move(public_path('uploads'), $filename);
+                $data['customer_image']  = $filename;
             }
 
             $customer->update($data);
