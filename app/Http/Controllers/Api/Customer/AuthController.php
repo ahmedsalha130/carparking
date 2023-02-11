@@ -42,7 +42,7 @@ class AuthController extends Controller
     public function get_status($id){
 
 
-        $customer = Customer::whereId($id)->first() ;
+        $customer = Customer::find($id) ;
 
         if($customer){
 
