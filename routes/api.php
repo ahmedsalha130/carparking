@@ -30,31 +30,31 @@ Route::group([
 
     Route::post('/parks', 'Api\Park\ParkController@store');
     Route::post('/parks/{id}', 'Api\Park\ParkController@update');
-    
+
     //reservations
     Route::get('reservations', 'Api\Customer\ReservationController@index');
-    //rest pass 
+    //rest pass
     Route::post('password/reset', ['uses'=>'Api\Customer\ForgotPasswordtestController@forgotPassword']);
-    
+
     // get all
         Route::get('all-Email-customer', 'Api\Customer\ReservationController@allEmailCustomer');
         Route::get('all-Mobile-customer', 'Api\Customer\ReservationController@allMobileCustomer');
 
     //get_all_near =1
-    
+
         Route::get('all-near-customer', 'Api\Park\ParkController@get_all_near');
         Route::post('update-near/{id}', 'Api\Park\ParkController@update_near_park');
     //get_park_reservation_number
-    
+
                 Route::get('get-reservation-number/{numberpark}', 'Api\Customer\ReservationController@get_reservation_number');
-       
-       //get_park_number         
+
+       //get_park_number
        Route::get('get_park_number/{id}', 'Api\Park\ParkController@get_park_number');
-            
+
                 //update_reservation_park
-                
+
     Route::post('update-reservation-park/{number}', 'Api\Customer\ReservationController@update_reservation_park');
-    
+
     Route::get('get-resevation-number-near/{id}', 'Api\Park\ParkController@get_resnumber_near');
     //get multi data
     Route::get('multi_get_near_renumber_park_number/{id}', 'Api\Park\ParkController@multi_get_near_renumber_park_number');
@@ -62,13 +62,14 @@ Route::group([
 //res_status
     Route::post('reservation_status2/{id}', 'Api\Customer\ReservationController@update_status2');
 
-
+    //update-customer-near
+    Route::post('update-near-customer2/{id}', 'Api\Park\ParkController@update_near_customer');
 });
 
 
 Route::group(['middleware' => ['jwt.verify'],'prefix' => 'customer'], function() {
-    
-    
+
+
     Route::get('/customer-profile', ['uses' =>'Api\Customer\AuthController@userProfile']);
 
     Route::get('intervals', 'Api\Interval\IntervalController@index');
@@ -82,12 +83,12 @@ Route::group(['middleware' => ['jwt.verify'],'prefix' => 'customer'], function()
     Route::get('customer/{id}', 'Api\Customer\ReservationController@show');
     Route::post('update-profile/{id}', 'Api\Customer\AuthController@update_profile');
     Route::post('update-image/{id}', 'Api\Customer\AuthController@update_image');
-    
+
     //update-customer-near
         Route::post('update-near-customer/{id}', 'Api\Park\ParkController@update_near_customer');
-        
-        
-  //get_status 
+
+
+  //get_status
         Route::get('get-status/{id}', 'Api\Customer\AuthController@get_status');
         Route::post('update_password/{id}', 'Api\Customer\AuthController@update_password');
 
@@ -109,5 +110,5 @@ Route::group(['middleware' => ['jwt.verify'],'prefix' => 'customer'], function()
         //pdf
       Route::get('invoicePDF/{id}','Api\Invoice\InvoiceController@downloadPDF');
 
-    
+
 });
