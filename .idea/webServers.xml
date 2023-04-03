@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d4c94227-a65a-40d8-86f8-11d9aff7463d" name="carparking">
+        <fileTransfer rootFolder="/var/www/jeeply" accessType="SFTP" host="165.232.33.37" port="22" sshConfigId="d098c8ee-0ab7-4e30-b76c-dc681b179604" sshConfig="root@165.232.33.37:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="86c216c7-cc70-4adb-ab1b-c5f8cc4aa422" name="findout">
+        <fileTransfer rootFolder="/var/www/jeeply" accessType="SFTP" host="165.232.40.112" port="22" sshConfigId="04c4cc37-3054-4cf5-8722-df439a065f21" sshConfig="root@165.232.40.112:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
